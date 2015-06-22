@@ -1,0 +1,23 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# All Vagrant configuration is done below. The "2" in Vagrant.configure
+# configures the configuration version (we support older styles for
+# backwards compatibility). Please don't change it unless you know what
+# you're doing.
+Vagrant.configure(2) do |config|
+
+  config.vm.box = "w2012_puppet_agent"
+  config.vm.network "private_network", type: "dhcp"
+
+  config.vm.network "forwarded_port", host: 33389, guest: 3389
+
+  config.vm.communicator = "winrm"
+  config.winrm.username = "Administrator"
+  config.winrm.password = "Epam_2010"
+
+  config.vm.provision "shell" do |s|
+      s.path = "init.ps1"
+      s.args   = "'master_ip'"
+    end
+end
